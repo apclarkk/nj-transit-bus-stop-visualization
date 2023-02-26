@@ -1,10 +1,7 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
-import { Map } from "./Map";
+import { OverlayAndMap } from "./OverlayAndMap";
 
 function App() {
-	return <Map />;
+	return <OverlayAndMap />;
 }
 
 export default App;

@@ -1,17 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-	MapContainer,
-	TileLayer,
-	useMapEvent,
-	useMap,
-	Marker,
-	Popup,
-	Polygon,
-} from "react-leaflet";
+import { MapContainer, TileLayer, useMapEvent } from "react-leaflet";
 import styled from "styled-components";
 import Papa, { ParseResult } from "papaparse";
 import {
-	LatLngBoundsExpression,
 	STARTING_POS_NJ,
 	STARTING_ZOOM,
 	toNumberVals,
@@ -19,13 +10,15 @@ import {
 	TStopData,
 	TStopRow,
 } from "./constants";
-import { Rectangle } from "./components/Rectangle";
-import { getRectBounds } from "./utils";
+import { CustomMarker } from "./components/CustomMarker";
 
 const MapWrapper = styled.div`
 	.leaflet-container {
 		height: 100vh;
 		width: 100vw;
+	}
+	.leaflet-tile {
+		filter: brightness(0.7) !important;
 	}
 `;
 
@@ -75,21 +68,6 @@ const loadCSV = async (
 	}
 };
 
-// const TestFunc = (): JSX.Element => {
-// 	const map = useMap();
-// 	useEffect(() => {
-// 		var features: any[] = [];
-// 		map.eachLayer(function (layer) {
-// 			if (layer instanceof L.Marker) {
-// 				if (map.getBounds().contains(layer.getLatLng())) {
-// 					features.push(layer);
-// 				}
-// 			}
-// 		});
-// 	}, []);
-// 	return <div>Test</div>;
-// };
-
 export const Map = () => {
 	const clickPanningRef = useRef(false);
 	const [stopsData, setStopsData] = useState<TStopData>();
@@ -107,33 +85,9 @@ export const Map = () => {
 
 				<TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 				{!!stopsData?.length
-					? stopsData?.slice(0, 300).map((stop: TStopRow) => {
-							const rectBounds = getRectBounds(
-								[stop.stop_lat, stop.stop_lon],
-								"square"
-							);
-							return (
-								<Polygon
-									key={stop.stop_id}
-									positions={
-										rectBounds as LatLngBoundsExpression
-									}
-								>
-									<Marker
-										position={[
-											stop.stop_lat,
-											stop.stop_lon,
-										]}
-									>
-										<Popup>
-											{`${stop.stop_id}: ${stop.stop_name}`}
-											<br />
-											{`${stop.stop_lat},${stop.stop_lon}`}
-										</Popup>
-									</Marker>
-								</Polygon>
-							);
-					  })
+					? stopsData
+							.slice(0, 1000) // uncomment to remove limit of markers... at your own peril
+							.map((stop: TStopRow) => <CustomMarker {...stop} />)
 					: null}
 			</MapContainer>
 		</MapWrapper>
