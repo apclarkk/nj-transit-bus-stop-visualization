@@ -3,7 +3,7 @@
 	font-family: "Shibui";
 	src: local("Shibui"), url(./assets/fonts/Shibui_Medium_Italic.ttf);
 	font-weight: 500;
-	font-variant: italic;
+	font-style: italic;
 }
 /* Medium / Reg - 500 */
 @font-face {
@@ -19,5 +19,5 @@
 }
 
 * {
-	font-family: "Shibui";
+	font-family: "Shibui" !important;
 }

@@ -1,46 +1,45 @@
 import { useCallback, useEffect, useState } from "react";
-import { LatLngBoundsExpression, TStopRow } from "../constants";
+import {
+	IDisplayOptions,
+	LatLngBoundsExpression,
+	TStopRow,
+} from "../constants";
 import { useMap, Marker, Popup, Polygon } from "react-leaflet";
 import { getRectBounds } from "../utils";
 import React from "react";
 import L from "leaflet";
 
 const rendererOption = L.canvas({ padding: 0.5 });
+interface ICustomMarkerProps {
+	stop: TStopRow;
+	displayOptions: IDisplayOptions;
+}
 
-export const CustomMarker = (stop: TStopRow): JSX.Element => {
-	const [renderMarker, setRenderMarker] = useState(true); // hide / show marker if in view
+export const CustomMarker = ({
+	displayOptions,
+	stop,
+}: ICustomMarkerProps): JSX.Element => {
 	const [showMarker, setShowMarker] = useState(true); // show custom marker or circle marker
-
+	const { boundType, markerType } = displayOptions;
 	const map = useMap();
-
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	const isWithinView = () =>
-		setRenderMarker(
-			map.getBounds().contains([stop.stop_lat, stop.stop_lon])
-		);
 
 	const minimizeMarkers = useCallback(
 		() => setShowMarker(map.getZoom() > 13),
 		[map]
 	);
 
-	const onMoveHandler = useCallback(() => {
-		isWithinView();
-		minimizeMarkers();
-	}, [isWithinView, minimizeMarkers]);
-
 	useEffect(() => {
-		map.on("move", onMoveHandler);
+		map.on("move", minimizeMarkers);
 		return () => {
-			map.off("move", onMoveHandler);
+			map.off("move", minimizeMarkers);
 		};
-	}, [map, isWithinView, onMoveHandler]);
+	}, [map, minimizeMarkers]);
 
-	const rectBounds = getRectBounds([stop.stop_lat, stop.stop_lon], "diamond");
+	const rectBounds = getRectBounds([stop.stop_lat, stop.stop_lon], boundType);
 
-	if (!renderMarker) return <React.Fragment />;
+	if (markerType === "none") return <React.Fragment />;
 
-	if (!showMarker) {
+	if (!showMarker || markerType === "dot") {
 		// need to add circle markers via leaflet's canvas renderer and not react-leaflet
 		L.circleMarker([stop.stop_lat, stop.stop_lon], {
 			radius: 5,
