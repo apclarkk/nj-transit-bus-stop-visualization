@@ -7,7 +7,6 @@ import {
 import circle from "@turf/circle";
 import { Units, Position } from "@turf/helpers";
 import Papa, { ParseResult } from "papaparse";
-import { useMapEvent } from "react-leaflet";
 import React from "react";
 
 const RADIUS = 0.25;
@@ -44,7 +43,8 @@ export const getRectBounds = (
 
 export const loadCSV = async (
 	path: string,
-	setState: React.Dispatch<React.SetStateAction<any>>
+	setState: React.Dispatch<React.SetStateAction<any>>,
+	cleaned?: boolean
 ) => {
 	try {
 		Papa.parse(`/data/${path}.csv`, {

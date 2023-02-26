@@ -86,6 +86,7 @@ export interface IDisplayOptions {
 	boundType: BoundType; // radiusType | boundType - interchangeable
 	markerType: MarkerTypes;
 	municipalityInfo: TMuniciplaityRow | undefined;
+	markerLimit?: number;
 }
 
 export interface ISidebarOptions {

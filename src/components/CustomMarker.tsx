@@ -34,7 +34,6 @@ export const CustomMarker = ({
 			map.off("move", minimizeMarkers);
 		};
 	}, [map, minimizeMarkers]);
-
 	const rectBounds = getRectBounds([stop.stop_lat, stop.stop_lon], boundType);
 
 	if (markerType === "none") return <React.Fragment />;

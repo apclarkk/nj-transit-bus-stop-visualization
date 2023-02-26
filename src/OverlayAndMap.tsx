@@ -4,9 +4,7 @@ import {
 	IDisplayOptions,
 	IOverlayProps,
 	IOverlayStateProps,
-	ISidebarProps,
 	OverlayState,
-	SidebarOptions,
 	STARTING_POS_NJ,
 	STARTING_ZOOM,
 	TMunicipalityData,
@@ -34,6 +32,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import L from "leaflet";
 import { Sidebar } from "./components/Sidebar";
+import { TransitDataTable } from "./components/TransitDataTable";
 
 const Wrapper = styled.div``;
 
@@ -114,18 +113,19 @@ const MapWrapper = styled.div`
 `;
 
 export const OverlayAndMap = (): JSX.Element => {
+	const [stopsData, setStopsData] = useState<TStopData>();
+	const [municipalityData, setMunicipalityData] =
+		useState<TMunicipalityData>();
+
 	const [displayOptions, setDisplayOptions] = useState<IDisplayOptions>({
 		boundType: "diamond",
 		markerType: "marker",
 		municipalityInfo: undefined,
+		markerLimit: stopsData?.length ? stopsData?.length : 16388,
 	});
 	const [overlayState, setOverlayState] = useState<IOverlayStateProps>({
 		overlayState: OverlayState.HOME,
 	});
-
-	const [stopsData, setStopsData] = useState<TStopData>();
-	const [municipalityData, setMunicipalityData] =
-		useState<TMunicipalityData>();
 
 	useEffect(() => {
 		if (!stopsData?.length) loadCSV("stops", setStopsData);
@@ -138,6 +138,7 @@ export const OverlayAndMap = (): JSX.Element => {
 						municipalityInfo: municipalityData[0]!,
 					})
 			);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
@@ -170,19 +171,30 @@ export const OverlayAndMap = (): JSX.Element => {
 							)}
 						/>
 					) : null}
-					{stopsData?.length ? (
-						<Map
-							stopsData={stopsData}
-							overlayState={overlayState}
-							displayOptions={displayOptions}
-						/>
+					{overlayState.overlayState !== OverlayState.TABLE ? (
+						<React.Fragment>
+							{stopsData?.length ? (
+								<Map
+									stopsData={stopsData}
+									overlayState={overlayState}
+									displayOptions={displayOptions}
+								/>
+							) : (
+								<Stack
+									justifyContent="center"
+									alignItems="center"
+									height={"100vh"}
+								>
+									<CircularProgress />
+								</Stack>
+							)}
+						</React.Fragment>
 					) : (
-						<Stack
-							justifyContent="center"
-							alignItems="center"
-							height={"100vh"}
-						>
-							<CircularProgress />
+						<Stack ml={"100px"}>
+							<TransitDataTable
+								stopData={stopsData}
+								municipalityData={municipalityData}
+							/>
 						</Stack>
 					)}
 				</MapContainer>

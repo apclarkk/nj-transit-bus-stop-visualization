@@ -13,6 +13,9 @@ const CustomSidebarIcon = styled(Stack)<{ isActive: boolean }>`
 			p.icon-label {
 				color: #336E8F;
 			}
+			svg {
+				fill: #96cbe8 !important;
+			}
 		`};
 	cursor: pointer;
 

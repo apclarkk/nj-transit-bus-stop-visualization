@@ -23,7 +23,6 @@ import {
 	FormControlLabel,
 	Radio,
 } from "@mui/material";
-import { useMap } from "react-leaflet";
 import styled from "styled-components";
 import { HelpCenterRounded, TuneOutlined } from "@mui/icons-material";
 import StopsLogoSM from "../assets/images/stops_logo_sm.png";
@@ -253,8 +252,8 @@ const StyledPopOutMenu = styled(Stack)`
 `;
 
 const FilteringMenu = ({
-	displayOptions,
 	setDisplayOptions,
+	displayOptions,
 }: {
 	displayOptions: IDisplayOptions;
 	setDisplayOptions: React.Dispatch<React.SetStateAction<IDisplayOptions>>;
@@ -305,6 +304,19 @@ const FilteringMenu = ({
 					))}
 				</RadioGroup>
 			</FormControl>
+			<TextField
+				type="number"
+				inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+				onChange={(e) => {
+					if (Number(e.target.value) >= 0) {
+						setDisplayOptions((prev) => ({
+							...prev,
+							markerLimit: Number(e.target.value),
+						}));
+					}
+				}}
+				value={displayOptions.markerLimit}
+			/>
 		</StyledPopOutMenu>
 	);
 };
