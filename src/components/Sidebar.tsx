@@ -64,6 +64,7 @@ export const Sidebar = ({
 			setShowSearchBar(false);
 		}
 		if (showFilteringMenu && !showSearchBar) setShowFilteringMenu(false);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [overlayState]);
 
 	return (
