@@ -1,0 +1,23 @@
+/* Medium / Italic - 500 */
+@font-face {
+	font-family: "Shibui";
+	src: local("Shibui"), url(./assets/fonts/Shibui_Medium_Italic.ttf);
+	font-weight: 500;
+	font-style: italic;
+}
+/* Medium / Reg - 500 */
+@font-face {
+	font-family: "Shibui";
+	src: local("Shibui"), url(./assets/fonts/Shibui_Medium.ttf);
+	font-weight: 500;
+}
+/* Bold / Reg - 600 */
+@font-face {
+	font-family: "Shibui";
+	src: local("Shibui"), url(./assets/fonts/Shibui_Bold.ttf);
+	font-weight: 600;
+}
+
+* {
+	font-family: "Shibui" !important;
+}
