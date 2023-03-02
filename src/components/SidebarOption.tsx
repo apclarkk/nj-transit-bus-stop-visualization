@@ -1,8 +1,4 @@
-import {
-	IOverlayStateProps,
-	ISidebarOptions,
-	OverlayState,
-} from "../constants";
+import { ISidebarOptions, OverlayState } from "../constants";
 import React from "react";
 import styled from "styled-components";
 import { Icon, Stack } from "@mui/material";

@@ -6,7 +6,6 @@ import {
 	OverlayState,
 	RadiusStyleOptions,
 	SidebarOptions,
-	STARTING_ZOOM,
 } from "../constants";
 import {
 	Stack,
@@ -28,7 +27,6 @@ import styled from "styled-components";
 import { HelpCenterRounded, TuneOutlined } from "@mui/icons-material";
 import StopsLogoSM from "../assets/images/stops_logo_sm.png";
 import { SidebarOption } from "./SidebarOption";
-import { useMap } from "react-leaflet";
 import StopsLogo from "../assets/images/stops_logo_boxed.png";
 
 const SidebarWrapper = styled(Stack)`
@@ -88,7 +86,12 @@ export const Sidebar = ({
 				setOverlayState({ overlayState: val });
 			}
 		},
-		[displayOptions.markerLimit, setOverlayState, stopsLen]
+		[
+			displayOptions.markerLimit,
+			overlayState.overlayState,
+			setOverlayState,
+			stopsLen,
+		]
 	);
 	return (
 		<SidebarWrapper direction="column">
