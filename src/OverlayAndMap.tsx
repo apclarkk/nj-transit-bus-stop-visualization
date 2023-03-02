@@ -281,6 +281,7 @@ const Overlay = ({
 	return (
 		<React.Fragment>
 			<Sidebar
+				stopsData={stopsData}
 				setOverlayState={setOverlayState}
 				overlayState={overlayState}
 				municipalityData={municipalityData}

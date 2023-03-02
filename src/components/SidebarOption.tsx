@@ -1,4 +1,8 @@
-import { IOverlayStateProps, ISidebarOptions } from "../constants";
+import {
+	IOverlayStateProps,
+	ISidebarOptions,
+	OverlayState,
+} from "../constants";
 import React from "react";
 import styled from "styled-components";
 import { Icon, Stack } from "@mui/material";
@@ -40,11 +44,11 @@ const CustomSidebarIcon = styled(Stack)<{ isActive: boolean }>`
 
 export const SidebarOption = ({
 	option,
-	setOverlayState,
+	onSelect,
 	isActive,
 }: {
 	option: ISidebarOptions;
-	setOverlayState: React.Dispatch<React.SetStateAction<IOverlayStateProps>>;
+	onSelect: (val: OverlayState) => void;
 	isActive: boolean;
 }): JSX.Element => (
 	<CustomSidebarIcon
@@ -52,12 +56,7 @@ export const SidebarOption = ({
 		direction="column"
 		alignItems="center"
 		justifyContent="center"
-		onClick={() =>
-			setOverlayState((prev) => ({
-				...prev,
-				overlayState: option.overlayState,
-			}))
-		}
+		onClick={() => onSelect(option.overlayState)}
 	>
 		<div className="icon-container">
 			<Icon component={option.icon} />

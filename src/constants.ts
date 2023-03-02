@@ -96,6 +96,7 @@ export interface ISidebarOptions {
 }
 
 export interface ISidebarProps {
+	stopsData: TStopData;
 	setOverlayState: React.Dispatch<React.SetStateAction<IOverlayStateProps>>;
 	overlayState: IOverlayStateProps;
 	municipalityData: TMunicipalityData;

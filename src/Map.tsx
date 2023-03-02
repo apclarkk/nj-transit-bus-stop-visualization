@@ -18,6 +18,7 @@ export const Map = ({
 	const showMarkers =
 		overlayState.overlayState !== OverlayState.HOME &&
 		overlayState.overlayState !== OverlayState.TABLE &&
+		overlayState.overlayState !== OverlayState.ABOUT &&
 		markerType !== "none";
 
 	const map = useMap();
